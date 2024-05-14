@@ -1,0 +1,63 @@
+{# load the tag library #}
+{% load bootstrap5 %}
+{# load css and javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# display django.contrib.messages as bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load static %}
+{% load authorization %}
+<link rel="stylesheet" href="{% static 'honor/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="x-ua-compatible" content = "IE=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>
+            Django Google Sign-In
+        </title>
+    </head>
+    <header>
+        <div class = "top-banner"> </div>
+        <div class = "bottom-banner">
+
+            <img class = "logo" style="left: 0%;width:300px; top: 20px" src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/>
+            <h1 class = "title" >Log-In Page</h1>
+        </div>
+
+    </header>
+
+        {#        <div style="background-image: url('../../static/honor/images/rotunda_background_pic.jpg');background: #a4c6ff;">#}
+{#        <img class="border border-5 border-dark w-25" src= "{% static 'honor/images/rotunda_background_pic.jpg' %}"  alt="rotunda"/>#}
+<div style="background-color: white;">
+    
+
+    <div class = "main-picture">
+        <img style="width:100%;" src= "{% static 'honor/images/uva_lawn_under_stars.jpg' %}"  alt="rotunda"/>
+        <div class="overlay"></div>
+            <div class="content">
+                {% load socialaccount %}
+                <h2>
+                    Google Login
+                </h2>
+                <!--- #Citation: https://www.youtube.com/watch?v=yO6PP0vEOMc
+                --->
+                <a href="{% provider_login_url 'google' %}?next=/home">Log in with google</a>
+    
+                <br><br>
+                <button onclick="location.href = '{% url 'honor:continue_anonymously'%}'">Anonymous</button>
+    
+            </div>
+    </div>
+</div>
+<footer class=" text-white">
+    {#<div style = "background-color: #232d49;">#}
+        <div class = "top-banner"> </div>
+        <div class="container text-center"><br>
+          <small>Copyright &copy; CS3240 <br> Author: A-32</small>
+            <p> This site is for educational purposes and no data submitted is actually monitored or taken seriously</p>
+        </div>
+    </footer>
+</html>

@@ -1,0 +1,100 @@
+{# load the tag library #}
+{% load bootstrap5 %}
+{# load css and javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# display dijango.contrib.messages as bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'honor/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit a report</title>
+</head>
+<header>
+        <div class = "top-banner"> </div>
+            <img class = "logo" src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/>
+<ul>
+  <li><a href='/honor/'>Sign Out</a></li>  
+  
+  <li><a href='/honor/submitted'>View Reports</a></li>
+    <li><a class="active" href='/honor/report'>Submit Report</a></li>
+  <li><a href="../home/">Home</a></li>
+  
+</ul>
+    
+</header>
+
+
+<body>
+{#<div style="background-image: url({% static 'honor/images/uva_lawn_under_stars_tall.jpg' %}); background-size: cover;">#}
+{#        <img style="width:100%;" src= "{% static 'honor/images/uva_lawn_under_stars.jpg' %}"  alt="rotunda"/>#}
+<div>
+               <div class="report-container">
+                    <div class="report">
+                <form action = "{% url 'honor:submit_report' %}" method ="post" class="container-fluid" enctype="multipart/form-data">
+                {% csrf_token %}
+                <fieldset>
+                <reportHeader>
+                    <h1 class = "subtitle" ><u>Honor Code Violation Report</u></h1>
+                    <p>Please fill out as much information as you can or feel comfortable with.</p>
+                </reportHeader>
+
+
+
+                {% if error_message %}
+                <p class="error"><strong>
+                    {{ error_message }}
+                </strong></p>
+                {% endif %}
+                <b>
+                    <br><label>Name of the offender: </label><br>
+                </b>
+               <input type="text" name="nameOfOffender" id="nameOfOffender" placeholder="Name of Offender"><br>
+                <b>
+                    <label>Class the violation took place in: </label><br>
+                </b>
+                <input type="text" name="className" id="className" placeholder="Class of Violation"><br>
+                <b>
+                    <label>Location where the violation took place: </label><br>
+                </b>
+                <input type="text" name="location" id="location" placeholder="Location of Violation"><br>
+                <b>
+                    <label>Description of the honor violation </label><br>
+                </b>
+                <textarea name="description" id="description" placeholder="Description of Violation" style="width:100%; height:200px;word-break:break-word;"></textarea><br>
+                <b>
+                  <label>Additional information </label><br>
+                </b>
+                <textarea name="addInfo" id="addInfo" placeholder="Any Additional Information" style="width:100%; height:200px;"></textarea><br>
+                <label>Please upload any additional documents (accepted formats .pdf, .txt, .jpg)</label><br>
+                <input type="file" id="file" name="file">
+                </fieldset>
+                    <br><input type="submit" value="Submit"><br>
+                </form>
+
+            </div>
+        </div>
+
+
+
+{#            </div>#}
+{#    </div>#}
+
+
+<br><br>
+</div>
+
+</body>
+<footer class=" text-white">
+    {#<div style = "background-color: #232d49;">#}
+        <div class = "top-banner"> </div>
+        <div class="container text-center"><br>
+          <small>Copyright &copy; CS3240 <br> Author: A-32</small>
+            <p> This site is for educational purposes and no data submitted is actually monitored or taken seriously</p>
+        </div>
+    </footer>
+</html>

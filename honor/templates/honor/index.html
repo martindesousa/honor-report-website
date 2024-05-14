@@ -1,0 +1,46 @@
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'honor/style.css' %}">
+
+<header>
+    <div class = "top-banner"> </div>
+    <img class = "logo" src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/>
+    <ul>
+      <li><a href='/honor/'>Sign Out</a></li>  
+      
+      <li><a href='/honor/submitted'>View Reports</a></li>
+        <li><a href='/honor/report'>Submit Report</a></li>
+      <li><a class="active" href="../home/">Home</a></li>      
+    </ul>
+</header>
+
+<body>
+{#<img style="width:100%;" src= "{% static 'honor/images/honor_committee.png' %}"  alt="rotunda"/>#}
+
+<div class="slider">
+  <div class="slides">
+    <div id="slide-1">
+      <img style="width:100%;" src= "{% static 'honor/images/honor_committee.png' %}"  alt="rotunda"/>
+    </div>
+    <div id="slide-2">
+      <img style="width:100%;" src= "{% static 'honor/images/rotunda.jpeg' %}"  alt="rotunda"/>
+    </div>
+    <div id="slide-3">
+      <img style="width:100%;" src= "{% static 'honor/images/students.jpeg' %}"  alt="rotunda"/>
+    </div>
+  </div>
+</div>
+
+
+<footer class=" text-white">
+    <div class = "top-banner"> </div>
+    <div class="container text-center"><br>
+      <small>Copyright &copy; CS3240 <br> Author: A-32</small>
+        <p> This site is for educational purposes and no data submitted is actually monitored or taken seriously</p>
+    </div>
+</footer>
+</body>

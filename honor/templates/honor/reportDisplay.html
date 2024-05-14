@@ -1,0 +1,149 @@
+{# load the tag library #}
+{% load bootstrap5 %}
+{# load css and javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# display dijango.contrib.messages as bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load static %}
+{% load authorization %}
+{% load socialaccount %}
+<link rel="stylesheet" href="{% static 'honor/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Display</title>
+</head>
+{#<script>#}
+{#    used to adjust width of text boxes so there isn't uneccessary space   #}
+{#     window.onload = function() {#}
+{#        adjustWidth(document.getElementsByClassName('longtext'));#}
+{#    };#}
+{##}
+{#    function adjustWidth(inputs) {#}
+{#        for (var i = 0; i < inputs.length; i++) {#}
+{#            var input = inputs[i];#}
+{#            if (!input.adjusted) {#}
+{#                input.style.width = ((input.value.length + 6) * 8) + 'px';#}
+{#                input.adjusted = true;#}
+{#            }#}
+{#        }#}
+{#    }#}
+{#</script>#}
+<header>
+        <div class = "top-banner"> </div>
+            <img class = "logo"  src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/>
+<ul>
+  <li><a href='/honor/'>Sign Out</a></li>    
+  <li><a class="active" href='/honor/submitted'>View Reports</a></li>
+    <li><a href='/honor/report'>Submit Report</a></li>
+  <li><a  href="/honor/home/">Home</a></li>
+  
+</ul>
+</header>
+
+
+<body>
+
+{#<div style="background-image: url({% static 'honor/images/uva_lawn_under_stars_tall.jpg' %}); background-size: cover;">#}
+   <div>
+    <div class="report-container">
+        <div class="reportDisplay">
+            <div class="report-grid-1">
+            <h2>User</h2>
+            <h2>{{ report.timeStamp }}</h2>
+            {% if report.status == 1 %}
+                <h2 style="color:red"> {{report_status}}</h2>
+            {% elif report.status == 2 %}
+                <h2 style="color:yellow"> {{report_status}}</h2>
+            {% elif report.status == 3 %}
+                <h2 style="color:green"> {{report_status}}</h2>
+            {% endif %}
+            
+                <div>
+                    <b><label title="Name of the Offender">Name </label><br></b>
+{#                {% if report.nameOfOffender %} {{ report.nameOfOffender }}{% else %} N/A{% endif %}#}
+                    <input readonly title="Name of the Offender" type="text" name="nameOfOffender" id="nameOfOffender" value= "{% if report.nameOfOffender %} {{ report.nameOfOffender }}{% else %} N/A{% endif %} "><br>
+                </div>
+                <div>
+                  <b><label title="Class the violation took place in">Class</label><br></b>
+                <input readonly title="Class the violation took place in" type="text" name="className" id="className" value="{% if report.className %} {{ report.className }}{% else %} N/A{% endif %}"><br>
+                </div>
+                <div>
+                    <b><label title="Location where the violation took place">Location</label><br></b>
+                    <input readonly title="Location where the violation took place" type="text" name="location" id="location" value="{% if report.location %} {{ report.location }}{% else %} N/A{% endif %}"><br>
+
+                </div>
+            
+
+
+                <div class = "report-file">
+                    {% if report.file %}
+{#                    <a href="{{ report.file.url }}" target="_blank">View File</a>#}
+                    <embed src="{{ report.file.url }}" style="width:50%; height:auto">
+                {% else %}
+                    No File Uploaded
+                {% endif %}
+                </div>
+
+            </div>
+            <div class="report-grid-2">
+
+              <div class="report-description">
+                <b><label title="Description of the honor violation">Description</label><br></b>
+                <textarea readonly title="Description of the honor violation" name="description" id="description" placeholder="{% if report.description %} {{ report.description }}{% else %} N/A{% endif %}" style="width:100%; height:200px;word-break:break-word;">{% if report.description %} {{ report.description }}{% else %} N/A{% endif %}</textarea><br>
+{#                <input readonly class = "longText" type="text" name="description" id="txt" oninput="adjustWidth(this);"  value= "{% if report.description %} {{ report.description }}{% else %} N/A{% endif %}" >input<br>#}
+
+                </div>
+                <div class="report-add-info">
+                    <b><label title="additional information about the violation">Extra Info </label><br></b>
+                    <textarea readonly title="additional information about the violation" name="addInfo" id="addInfo" placeholder="{% if report.addInfo %} {{ report.addInfo }}{% else %} N/A{% endif %}" style="width:100%; height:200px;">{% if report.addInfo %} {{ report.addInfo }}{% else %} N/A{% endif %}</textarea><br>
+{#                <input class = "longText" type="text" name="addInfo" id="addInfo" value="{% if report.addInfo %} {{ report.addInfo }}{% else %} N/A{% endif %}"><br>#}
+
+                </div>
+            </div>
+        <br>
+         <button onclick="location.href = '/honor/submitted'">Back</button><br><br>
+         <button onclick="location.href = '{% url 'honor:reportEdit' report.id %}'">Edit Report</button><br><br>
+        <button onclick="location.href = '{% url 'honor:delete_report' report.id %}'">Delete Report</button>
+        </div>
+
+
+    </div>
+    <div class="report-container">
+        <div class="reportDisplay">
+            <form action = "{% url 'honor:add_admin_comments' report.id %}" method ="post" class="container-fluid" enctype="multipart/form-data">
+                {% csrf_token %}
+                <b>
+                    <label>Admin Comments </label><br>
+                </b>
+                <textarea name="comments" id="comments" placeholder="{% if report.admin_comments %}{{ report.admin_comments }}{% else %}Admin Comments {% endif %}" style="width:100%; height:100px;word-break:break-word;"></textarea><br>
+                <br>
+                {% if user|in_group:"power-user"%}
+                    <input type="submit" value="Submit">
+                {% endif %}
+            </form>
+            <form action = "{% url 'honor:resolve' report.id %}" method ="post" class="container-fluid" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <br>
+                {% if user|in_group:"power-user"%}
+                    <input type="submit" value="Resolved">
+                {% endif %}
+            </form>
+        </div>
+    </div>
+<br><br>
+
+</div>
+    <footer class=" text-white">
+    {#<div style = "background-color: #232d49;">#}
+        <div class = "top-banner"> </div>
+        <div class="container text-center"><br>
+          <small>Copyright &copy; CS3240 <br> Author: A-32</small>
+            <p> This site is for educational purposes and no data submitted is actually monitored or taken seriously</p>
+        </div>
+    </footer>
+</body>
+</html>

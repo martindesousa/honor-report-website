@@ -1,0 +1,137 @@
+{# load the tag library #}
+{% load bootstrap5 %}
+{# load css and javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{# display dijango.contrib.messages as bootstrap alerts #}
+{% bootstrap_messages %}
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'honor/style.css' %}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Display</title>
+</head>
+
+{#<header>#}
+{#    <div class = "top-banner"> </div>#}
+{#    <div class = "bottom-banner">#}
+{##}
+{#        <a href="/honor/home/"> <img class = "logo" style="left: 0%;width:300px; top: 20px" src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/></a>#}
+{#        <div class="banner" style="right:0;transform: translate(-25%, 60%);">#}
+{#            [Editing Report]#}
+{#        </div>#}
+{#        <h1 class = "title" >Report #{{ report.id }}</h1>#}
+{#    </div>#}
+{##}
+{##}
+{#</header>#}
+<header>
+        <div class = "top-banner"> </div>
+            <img class = "logo"  src= "{% static 'honor/images/Screenshot 2024-04-16 113934.png' %}"  alt="rotunda_logo"/>
+{# <div class="banner" style="right:0;transform: translate(-25%, 60%);">#}
+{#            [Editing Report]#}
+{#        </div>#}
+    <ul>
+  <li><a href='/honor/'>Sign Out</a></li>    
+  <li><a class="active" href='/honor/submitted'>View Reports</a></li>
+    <li><a href='/honor/report'>Submit Report</a></li>
+  <li><a  href="/honor/home/">Home</a></li>
+  
+</ul>
+</header>
+
+    <body>
+<div>
+    {% if error_message %}
+                    <p class="error"><strong>
+                        {{ error_message }}
+                    </strong></p>
+                    {% endif %}
+    
+        <div class="report-container">
+            <div class="reportDisplay">
+            <form action = "{% url 'honor:edit_report'  %}" method ="post" enctype="multipart/form-data">
+            {% csrf_token %}
+             
+                <div class="report-grid-1">
+                <h2>User</h2>
+                <h2>[Editing Report]</h2>
+                <h2>{{report_status}}</h2>
+                 <input type="hidden" id="Id" name="Id" value="{{ report.id }}">
+                    <div>
+                        <b><label title="Name of the Offender">Name </label><br></b>
+    {#                {% if report.nameOfOffender %} {{ report.nameOfOffender }}{% else %} N/A{% endif %}#}
+                        <input title="Name of the Offender" type="text" name="nameOfOffender" id="nameOfOffender" value="{{ report.nameOfOffender }}"><br>
+                    </div>
+                    <div>
+                      <b><label title="Class the violation took place in">Class</label><br></b>
+                    <input title="Class the violation took place in" type="text" name="className" id="className" value="{{ report.className }}"><br>
+                    </div>
+                    <div>
+                        <b><label title="Location where the violation took place">Location</label><br></b>
+                        <input title="Location where the violation took place" type="text" name="location" id="location" value="{{ report.location }}"><br>
+    
+                    </div>
+    
+    
+                    <div class = "report-file">
+                        {% if report.file %}
+    {#                    <a href="{{ report.file.url }}" target="_blank">View File</a>#}
+                        <embed src="{{ report.file.url }}" style="width:50%; height:auto">
+                    {% else %}
+                        No File Uploaded
+                    {% endif %}
+                    </div>
+    
+                </div>
+                <div class="report-grid-2">
+    
+                  <div class="report-description">
+                    <b><label title="Description of the honor violation">Description</label><br></b>
+                    <textarea title="Description of the honor violation" name="description" id="description"  style="width:100%; height:200px;word-break:break-word;">{{ report.description }}</textarea><br>
+    {#                <input readonly class = "longText" type="text" name="description" id="txt" oninput="adjustWidth(this);"  value= "{% if report.description %} {{ report.description }}{% else %} N/A{% endif %}" >input<br>#}
+    
+                    </div>
+                    <div class="report-add-info">
+                        <b><label title="additional information about the violation">Extra Info </label><br></b>
+                        <textarea title="additional information about the violation" name="addInfo" id="addInfo"  style="width:100%; height:200px;">{{ report.addInfo }}</textarea><br>
+    {#                <input class = "longText" type="text" name="addInfo" id="addInfo" value="{% if report.addInfo %} {{ report.addInfo }}{% else %} N/A{% endif %}"><br>#}
+    
+                    </div>
+                </div>
+                <br><input type="submit" value="Submit"><br><br>
+            
+            </form>
+             <button style="width:70px" onclick="location.href = '/honor/{{ report.id }}/reportDisplay'">Back</button>
+            </div>
+    
+    
+        </div>
+    {#    <div class="report-container">#}
+    {#        <div class="reportDisplay">#}
+    {#            <form action = "{% url 'honor:add_admin_comments' report.id %}" method ="post" class="container-fluid" enctype="multipart/form-data">#}
+    {#                {% csrf_token %}#}
+    {#                <b>#}
+    {#                    <label>Admin Comments </label><br>#}
+    {#                </b>#}
+    {#                <textarea name="comments" id="comments" placeholder="{% if report.admin_comments %}{{ report.admin_comments }}{% else %}Admin Comments {% endif %}" style="width:100%; height:100px;word-break:break-word;"></textarea><br>#}
+    {#                <br><input type="submit" value="Submit">#}
+    {#            </form>#}
+    {#        </div>#}
+    {#    </div>#}
+    <br><br>
+    </div>
+    </body>
+
+<footer class=" text-white">
+    {#<div style = "background-color: #232d49;">#}
+        <div class = "top-banner"> </div>
+        <div class="container text-center"><br>
+          <small>Copyright &copy; CS3240 <br> Author: A-32</small>
+            <p> This site is for educational purposes and no data submitted is actually monitored or taken seriously</p>
+        </div>
+    </footer>
+</html>

@@ -1,0 +1,11 @@
+Django
+gunicorn
+django-heroku
+dj-database-url
+whitenoise 
+django-allauth
+psycopg2-binary
+django-bootstrap-v5
+django_bootstrap5
+boto3
+django-storages
